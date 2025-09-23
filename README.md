@@ -25,3 +25,6 @@ Didn't have time to organize them into modules..here's a quick breakdown of what
 * `recon_cifar.py` -- the ReCoN builder that organizes hypothesis for cifar classes & superclasses
 * `resnet18.py`, `train_cifar.py` -- scripts used to train the vison module
 * `train_common.py`, `recon_visualizer_utils.py` -- utilities
+
+### After 4000 images...
+<img width="863" height="621" alt="image" src="https://github.com/user-attachments/assets/70b5d155-f135-41b2-900e-82a70ea34aed" />
