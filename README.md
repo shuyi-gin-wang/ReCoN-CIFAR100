@@ -18,3 +18,10 @@ A ReCoN is implemented in recon.py. It's used to build a learned representation 
 ### To Step through the ReCoN Building process
 * pip install -r requirements.txt
 * run the file `run_recon.py`
+
+### Files in the repo
+Didn't have time to organize them into modules..here's a quick breakdown of what they are:
+* recon.py -- stores the ReCoN implementation 
+* recon_cifar.py -- the ReCoN builder that organizes hypothesis for cifar classes & superclasses
+* resnet18.py, train_cifar.py -- scripts used to train the vison module
+* train_common.py, recon_visualizer_utils.py -- utilities
