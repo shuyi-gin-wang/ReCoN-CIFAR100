@@ -1,6 +1,6 @@
 # Implementation of [Request Confirmation Network](https://ceur-ws.org/Vol-1583/CoCoNIPS_2015_paper_6.pdf)
 
-A ReCoN is implemented in recon.py. It's used to build a learned representation of CIFAR100's hiearchical classes with self organizing hypothesis of CIFAR's classes and superclasses.
+A ReCoN is implemented in `recon.py`. It's used to build a learned representation of CIFAR100's hiearchical classes with self organizing hypothesis of CIFAR's classes and superclasses.
 
 ![recon_sequence_2](https://github.com/user-attachments/assets/597e117f-320d-4b79-9508-2acdf9653330)
 
