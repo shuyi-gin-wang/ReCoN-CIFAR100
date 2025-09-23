@@ -145,34 +145,22 @@ class ReCoN:
         return a_gen_next, a_por_next, a_ret_next, a_sub_next, a_sur_next
 
     def _calculate(self, z_gen, z_por, z_ret, z_sub, z_sur):
-        # 1) REQUEST persists unless inhibited by POR  (← inhibit-request)
-        #    If any incoming POR is negative, the unit is suppressed and cannot hold/receive a request.
         a_sub_next = np.where(z_por < 0, 0.0, np.maximum(self.a_sub, z_sub))
         requested = (a_sub_next > 0)
-
-        # 2) SUR only travels upward while requested AND not inhibited by RET  (← inhibit-confirm)
-        #    If incoming RET > 0 (from successors), parent must not confirm yet.
+        
         sur_drive = z_gen + z_sur
         a_sur_next = np.where(requested & (z_ret <= 0), sur_drive, 0.0)
 
-        # 3) POR is sent to successors while the unit is requested but NOT yet true;
-        #    turn POR OFF once a child has confirmed (i.e., we receive positive SUR from children).
-        #    (Table 1: R/A/W/F send inhibit-request; T/C do not.) 
-        is_true = (z_sur > 0)        # simple numeric surrogate for "child confirmed"
+        is_true = (z_sur > 0)        
         a_por_next = np.where(requested & (~is_true), -1.0, 0.0)
 
-        # 4) RET is sent to predecessors whenever the unit participates in a sequence
-        #    (i.e., has a successor) and is still requested; last-in-sequence has no successor => no RET.
         a_ret_next = np.where(requested & self.has_ret, 1.0, 0.0)
 
-        # 5) GEN: keep your associator/pass-through, but only meaningful while requested.
         a_gen_next = np.where(requested, np.where((z_gen * z_sub == 0) | (self.has_por & (z_por == 0)), z_sur, z_gen * z_sub), 0.0)
                 
         return a_gen_next, a_por_next, a_ret_next, a_sub_next, a_sur_next
     
     def _clip(self, a_gen, a_por, a_ret, a_sub, a_sur):
-        # Quantize/clamp as suggested in the paper:
-        # por/ret ∈ {−1,0,1}; sub ∈ {0,1}; sur ∈ [0,1] or −1 (solid fail); gen left as-is (clipped)
         eps = 1e-9
 
         # por: sign to {-1,0,1}
@@ -184,10 +172,10 @@ class ReCoN:
         # ret: strictly 0/1
         a_ret = (a_ret > 0).astype(float)
 
-        # sub: strictly 0/1 (requests)
+        # sub: strictly 0/1 
         a_sub = (a_sub > 0).astype(float)
 
-        # sur: clip to [-1, 1] (−1 means solid fail)
+        # sur: clip to [-1, 1] 
         a_sur = np.clip(a_sur, -1.0, 1.0)
 
         # gen: keep finite, softly clipped
@@ -219,18 +207,15 @@ class ReCoN:
 
     # Query
     def confirmed(self, node: int, threshold: float = 0.5) -> bool:
-        # return (self.a_gen[node] > threshold).all()
         return (self.a_sur[node] > threshold).all() or (self.a_gen[node] > threshold).all()
-
-        # return (self.a_sur[node] > threshold).all()
 
     def failed(self, node: int) -> bool:
         return (self.a_sur[node] < 0)
     
     def confirmed_list(self, nodes: list[int], threshold: float = 0.5) -> list[int]:
-        sur = self.a_sur[nodes]   # 1-D
-        gen = self.a_gen[nodes]   # 1-D
-        mask = ((sur > threshold) | (gen > threshold))  # 1-D boolean
+        sur = self.a_sur[nodes]
+        gen = self.a_gen[nodes] 
+        mask = ((sur > threshold) | (gen > threshold))
         return [n for n, m in zip(nodes, mask) if m]
 
     def por_successors(self, node: int, weight_threshold: float = 0) -> list[int]:
