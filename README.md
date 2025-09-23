@@ -5,7 +5,7 @@ A ReCoN is implemented in recon.py. It's used to build a learned representation 
 ![recon_sequence_2](https://github.com/user-attachments/assets/597e117f-320d-4b79-9508-2acdf9653330)
 
 ### Details
-* A small ResNet is pre-trained on CIFAR100; Given an image, it outputs both superclass and class labels
+* A small ResNet acts as the vision module of the ReCoN (pre-trained on CIFAR100); Given an image, it outputs both superclass and class labels
 * A learned representation of the hiearchical prediction (superclass -> class) is built with ReCoN. A superclass hypothesis is confirmed before the subclass hypothesis, creating por/ret relationships.
 * If the ReCoN representation (with visual module attached) sees a new class, a class hypothesis gets added if it's able to confirm its superclass. Otherwise, create a new superclass hypothesis with the nested class hypothesis.
   
