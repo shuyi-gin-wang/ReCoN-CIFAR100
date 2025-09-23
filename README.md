@@ -29,4 +29,4 @@ Didn't have time to organize them into modules..here's a quick breakdown of what
 ### Stable Representation
 <img width="863" height="621" alt="image" src="https://github.com/user-attachments/assets/70b5d155-f135-41b2-900e-82a70ea34aed" />
 
-Note: The vision module was trained to an accuracy of ~80% for class labels and ~90% for superclass labels.
+Note: The vision module was trained to an accuracy of 0.81x for class labels and 0.92x for superclass labels with the CIFAR100 dataset.
