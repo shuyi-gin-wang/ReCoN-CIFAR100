@@ -21,7 +21,7 @@ if __name__ == "__main__":
         new_node_indices = range(previous_net_num, recon_builder.net.num)
         print(f"Processed image {idx}, added {len(new_node_indices)} nodes.")
 
-        visualize_recon(recon_builder, title="ReCoN CIFAR 100", save_png=None, sample_image=image[0], new_node_indices=new_node_indices)
+        visualize_recon(recon_builder, title=f"ReCoN CIFAR-100 (image {idx})", save_png=None, sample_image=image[0], new_node_indices=new_node_indices)
         plt.show()
         
  

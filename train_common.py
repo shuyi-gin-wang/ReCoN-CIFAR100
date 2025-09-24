@@ -51,7 +51,7 @@ def get_loaders(data_dir, batch_size):
     test_ds = datasets.CIFAR100(data_dir, train=False, download=True, transform=test_norm, target_transform=labels)
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True, drop_last=True)
-    test_loader  = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
+    test_loader  = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=1, pin_memory=True)
     return train_loader, test_loader
 
 
@@ -60,10 +60,12 @@ def resnet18_cifar100(drop_rate=0.0):
 
 @torch.no_grad()
 def load_model_from_pt(pt_path: str):
+    print('Loading vison module...')
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = resnet18_cifar100().to(device)
-    ckpt = torch.load(pt_path, map_location=device)
+    ckpt = torch.load(pt_path, map_location=device, weights_only=True)
     sd = ckpt.get("model", ckpt)
     model.load_state_dict(sd)
     model.eval()
+    print('Vision module loaded!')
     return model, device
