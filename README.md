@@ -18,7 +18,7 @@ A ReCoN is implemented in `recon.py`. It's used to build a learned representatio
 ![recon_sequence_5](https://github.com/user-attachments/assets/d5be8454-de55-4af1-9ba1-f27467821119)
 
 ### To Step through the ReCoN Building process
-* pip install -r requirements.txt
+* (recommend creating a venv first) `pip install -r requirements.txt` 
 * run the file `run_recon.py`
 
 ### Files in the repo
